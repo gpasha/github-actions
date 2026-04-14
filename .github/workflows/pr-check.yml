@@ -1,0 +1,21 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependecies
+        run: npm ci
+      
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run tests
+        run: npm run test
