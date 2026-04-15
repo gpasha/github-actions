@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +28,13 @@ jobs:
 
       - name: Docker push
         run: docker push ${{ secrets.DOCKER_USER }}/devops-github-actions:${{ github.sha }}
+
+  deploy:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
 
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v0.1.6
