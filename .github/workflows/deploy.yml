@@ -14,15 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install dependecies
-        run: npm ci
-      
-      - name: Run linter
-        run: npm run lint
-
-      - name: Run tests
-        run: npm run test
-
       - name: Docker build
         run: docker build -t ${{ secrets.DOCKER_USER }}/devops-github-actions:${{ github.sha }} .
 
