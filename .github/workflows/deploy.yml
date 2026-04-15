@@ -5,9 +5,12 @@ on:
     branches: [master]
 
 jobs:
-  test-and-build:
-    runs-on: ubuntu-latest
+  checks:
+    uses: ./.github/workflows/pr-check.yml
 
+  build:
+    needs: checks
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -30,7 +33,7 @@ jobs:
         run: docker push ${{ secrets.DOCKER_USER }}/devops-github-actions:${{ github.sha }}
 
   deploy:
-    needs: test-and-build
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
